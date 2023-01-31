@@ -9,7 +9,9 @@ end
 
 def clean_phonenum(num)
   res = num&.gsub(/[^0-9]/, '')
-  return res unless res.length > 10 && num[0] != '1' || res.length > 11 || res.length < 10
+  return res unless res.length > 10 && num[0] != '1' ||
+                    res.length > 11 ||
+                    res.length < 10
 
   "#{num} (Invalid)"
 end
@@ -67,18 +69,19 @@ registration_days = Hash.new(0)
 contents.each do |row|
   id = row[0]
   name = row[:first_name]
-  p clean_phonenum(row[:homephone])
+
   regdate = Time.new(*parse_regdate(row[:regdate]))
   registration_hours[regdate.hour] += 1
   registration_days[regdate.strftime('%A')] += 1
 
-  # zipcode = clean_zipcode(row[:zipcode])
-  # legislators = legislators_by_zipcode(civic_info, zipcode)
+  zipcode = clean_zipcode(row[:zipcode])
+  legislators = legislators_by_zipcode(civic_info, zipcode)
 
-  # form_letter = erb_template.result(binding)
+  form_letter = erb_template.result(binding)
 
-  # save_thank_you_letter(id, form_letter)
+  save_thank_you_letter(id, form_letter)
 end
+
 puts(
   registration_days.sort_by { |_, v| v }.to_s,
   registration_hours.sort_by { |_, v| v }.to_s

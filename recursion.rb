@@ -76,34 +76,23 @@ roman_mapping_to_i = {
 }
 
 def dec_to_r(n, res = '')
-  # infinite recursion lmfao
-  max_decimal_place = 10 ** (n.to_s.length - 1)
-  first_num = n.to_s[0].to_i
-  numeral_amount = first_num / max_decimal_place
-
-  puts "#{max_decimal_place}, #{first_num}, #{numeral_amount}"
-  
-  # Division is still wrong, i think.
-  # I don't think this times loop is the solution if i have to hardcode
-  # the ternary operator here when numeral_amount is 0 (aka when it works)
-  (numeral_amount >= 1 ? numeral_amount : 1).times do # Base case
-    # These if conditions somehow fucked up the algorithm (more)
-    #if $roman_mapping_to_r.include?(first_num)
-      res += $roman_mapping_to_r[max_decimal_place]
-    #else
-      # How to make 7 be typed as VII instead of 7 Is.
-      # it is doing res += "I" 7 times, then 6... because x / 1 = x
-    #end
-  end
-
   if n.zero?
-    res # End condition
+    res
   else
-    dec_to_r(n - max_decimal_place, res) # Continue branch
+    min_base10_numeral = 10 ** (n.digits.length - 1)
+    leftmost_digit_amount = n.digits[-1] * min_base10_numeral
+
+    nearest_min = $roman_mapping_to_r.keys.bsearch do |num|
+      num <= leftmost_digit_amount
+    end
+    roman_numeral = [nearest_min, min_base10_numeral].max
+
+    $roman_mapping_to_r[roman_numeral] + dec_to_r(n - roman_numeral, res)
   end
 end
 
 def r_to_dec(n, res)
 end
 
-p dec_to_r(1237)
+p dec_to_r(1737)
+# p r_to_dec(1737)

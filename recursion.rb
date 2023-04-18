@@ -59,7 +59,7 @@ $roman_mapping_to_r = {
   4 => "IV",
   1 => "I"
 }
-roman_mapping_to_i = {
+$roman_mapping_to_d = {
   "M" => 1000,
   "CM" => 900,
   "D" => 500,
@@ -91,8 +91,16 @@ def dec_to_r(n, res = '')
   end
 end
 
-def r_to_dec(n, res)
+def r_to_dec(n, res = 0)
+  if n.nil? || n.empty?
+    res
+  else
+    subtractive_form = $roman_mapping_to_d.include?(n[0..1])
+    amount = if subtractive_form
+               $roman_mapping_to_d[n[0..1]]
+             else
+               $roman_mapping_to_d[n[0]]
+             end
+    r_to_dec(subtractive_form ? n[2..] : n[1..], res + amount)
+  end
 end
-
-p dec_to_r(1737)
-# p r_to_dec(1737)

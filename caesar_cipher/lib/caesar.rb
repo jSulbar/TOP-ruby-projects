@@ -2,9 +2,9 @@
 # alphabet array cause issues, this gets any value of
 # the sort and turns it to an usable index.
 def rollover_shift(shift)
-  correction = if shift > 25
+  correction = if shift >= 25
                  -26
-               elsif shift < -26
+               elsif shift <= -26
                  26
                else
                  0

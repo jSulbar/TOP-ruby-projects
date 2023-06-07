@@ -1,5 +1,5 @@
 require 'pry-byebug'
-require_relative 'lib/playable'
+require_relative '../../lib/playable'
 
 # Board class for tictactoe
 class Board
@@ -84,8 +84,6 @@ class TicTacToe
       false
     end
   end
-
-  private
 
   def process_turn
     plyrow, plycol = get_ply_input(

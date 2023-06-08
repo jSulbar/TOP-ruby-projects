@@ -158,10 +158,9 @@ describe TicTacToe do
   end
 
   describe '#process_input' do
-    context 'with invalid use input' do
-    end
-
-    context 'with valid user input' do
+    it 'converts user string into int tuple' do
+      user_input = '3 4'
+      expect(tictactoe_test.process_input(user_input)).to contain_exactly(2, 3)
     end
   end
 

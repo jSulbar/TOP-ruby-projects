@@ -123,11 +123,41 @@ describe TicTacToe do
     end
   end
 
-  describe '#process_input' do
+  describe '#process_turn' do
     before do
-      # This needs method stubs
+      allow(tictactoe_test).to receive(:mark_space).and_return(true)
+      allow(tictactoe_test).to receive(:get_ply_input)
     end
 
+    it 'sends #mark_space' do
+      expect(tictactoe_test).to receive(:mark_space)
+      tictactoe_test.process_turn
+    end
+
+    it 'sends #get_ply_input' do
+      expect(tictactoe_test).to receive(:get_ply_input)
+      tictactoe_test.process_turn
+    end
+
+    context 'when #mark_space returns true' do
+      before do
+        allow(tictactoe_test).to receive(:match_winner)
+        allow(tictactoe_test).to receive(:moves_possible?)
+      end
+
+      it 'sends #match_winner' do
+        expect(tictactoe_test).to receive(:match_winner)
+        tictactoe_test.process_turn
+      end
+
+      it 'sends #moves_possible?' do
+        expect(tictactoe_test).to receive(:moves_possible?)
+        tictactoe_test.process_turn
+      end
+    end
+  end
+
+  describe '#process_input' do
     context 'with invalid use input' do
     end
 

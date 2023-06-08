@@ -109,7 +109,17 @@ describe TicTacToe do
   end
 
   describe '#advance_turn' do
-    xit 'switches the player turn' do
+    before do
+      tictactoe_test.current_turn = :p1
+      tictactoe_test.next_turn = :p2
+    end
+
+    it 'changes current_turn' do
+      expect { tictactoe_test.advance_turn }.to change(tictactoe_test, :current_turn).to(:p2)
+    end
+
+    it 'changes next_turn' do
+      expect { tictactoe_test.advance_turn }.to change(tictactoe_test, :next_turn).to(:p1)
     end
   end
 

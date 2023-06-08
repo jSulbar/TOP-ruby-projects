@@ -166,9 +166,51 @@ describe TicTacToe do
 
   describe '#game_over?' do
     context 'when no moves are possible' do
+      context 'when a player has won' do
+        before do
+          allow(tictactoe_test).to receive(:match_winner).and_return('P1')
+          allow(tictactoe_test).to receive(:moves_possible?).and_return(false)
+        end
+
+        it 'returns true' do
+          expect(tictactoe_test).to be_game_over
+        end
+      end
+
+      context 'when no player has won' do
+        before do
+          allow(tictactoe_test).to receive(:match_winner)
+          allow(tictactoe_test).to receive(:moves_possible?).and_return(false)
+        end
+
+        it 'returns true' do
+          expect(tictactoe_test).to be_game_over
+        end
+      end
     end
 
-    context 'when a player has won' do
+    context 'when moves are possible' do
+      context 'when a player has won' do
+        before do
+          allow(tictactoe_test).to receive(:match_winner).and_return('P1')
+          allow(tictactoe_test).to receive(:moves_possible?).and_return(true)
+        end
+
+        it 'returns true' do
+          expect(tictactoe_test).to be_game_over
+        end
+      end
+
+      context 'when no player has won' do
+        before do
+          allow(tictactoe_test).to receive(:match_winner)
+          allow(tictactoe_test).to receive(:moves_possible?).and_return(true)
+        end
+
+        it 'returns false' do
+          expect(tictactoe_test).not_to be_game_over
+        end
+      end
     end
   end
 

@@ -78,14 +78,32 @@ describe Board do
 end
 
 describe TicTacToe do
+  subject(:tictactoe_test) { described_class.new }
+
   describe '#match_winner' do
-    context 'when a player has won' do
-      xit 'returns true' do
+    context 'when player 1 has won' do
+      before do
+        allow(tictactoe_test.boards[:p1]).to receive(:match_end?).and_return(true)
+      end
+
+      it 'returns the appropiate string' do
+        expect(tictactoe_test.match_winner).to eq('P1')
+      end
+    end
+
+    context 'when player 2 has won' do
+      before do
+        allow(tictactoe_test.boards[:p2]).to receive(:match_end?).and_return(true)
+      end
+
+      it 'returns the appropiate string' do
+        expect(tictactoe_test.match_winner).to eq('P2')
       end
     end
 
     context 'when no player has won' do
-      xit 'returns false' do
+      it 'returns false' do
+        expect(tictactoe_test.match_winner).to be false
       end
     end
   end

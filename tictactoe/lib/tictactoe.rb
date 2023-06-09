@@ -6,7 +6,7 @@ class Board
   attr_accessor :spaces
 
   def initialize
-    @spaces = Array.new(3) { |v| Array.new(3) { |v| false } }
+    @spaces = Array.new(3) { Array.new(3) { false } }
   end
 
   def match_end?

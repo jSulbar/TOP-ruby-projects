@@ -44,12 +44,57 @@ describe Board do
   end
 
   describe '#four_diagonal' do
+    subject(:diagonal_board) { described_class.new }
+
+    context 'with left-leaning diagonal' do
+      before do
+        diagonal_board.slots = Array.new(6) { |i| Array.new(7) { |j| 'P1' if i == j && i > 1 } }
+      end
+
+      it 'returns true' do
+        expect(diagonal_board.four_diagonal).to be true
+      end
+    end
+
+    context 'with right-leaning diagonal' do
+      before do
+        diagonal_board.slots = Array.new(6) do |i|
+          Array.new(7) { |j| 'P1' if i == j && i < 4 }
+        end.reverse
+      end
+
+      it 'returns true' do
+        expect(diagonal_board.four_diagonal).to be true
+      end
+    end
   end
 
   describe '#four_row' do
+    subject(:row_board) { described_class.new }
+
+    context 'with a complete row' do
+      before do
+        row_board.slots = Array.new(6) { |i| Array.new(7) { |j| 'P1' if i == 5 && j < 4 } }
+      end
+
+      it 'returns true' do
+        expect(row_board.four_row).to be true
+      end
+    end
   end
 
   describe '#four_column' do
+    subject(:column_board) { described_class.new }
+
+    context 'with a complete column' do
+      before do
+        column_board.slots = Array.new(6) { Array.new(7) { |i| 'P1' if i.zero? } }
+      end
+
+      it 'returns true' do
+        expect(column_board.four_column).to be true
+      end
+    end
   end
 
   describe '#drop' do

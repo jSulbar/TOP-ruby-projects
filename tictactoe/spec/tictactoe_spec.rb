@@ -260,7 +260,13 @@ describe TicTacToe do
   end
 
   describe '#get_ply_input' do
-    xit 'sends process_input' do
+    before do
+      allow(tictactoe_test).to receive(:process_input)
+    end
+
+    it 'sends process_input' do
+      expect(tictactoe_test).to receive(:process_input)
+      tictactoe_test.get_ply_input('usage')
     end
   end
 end

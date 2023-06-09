@@ -242,12 +242,19 @@ describe TicTacToe do
 
   describe '#moves_possible?' do
     context 'when no moves are possible' do
-      xit 'returns false' do
+      before do
+        allow(tictactoe_test.boards[:p1]).to receive(:spaces_taken).and_return(4)
+        allow(tictactoe_test.boards[:p2]).to receive(:spaces_taken).and_return(5)
+      end
+
+      it 'returns false' do
+        expect(tictactoe_test.moves_possible?).to be false
       end
     end
 
     context 'when moves are possible' do
-      xit 'returns true' do
+      it 'returns true' do
+        expect(tictactoe_test.moves_possible?).to be true
       end
     end
   end

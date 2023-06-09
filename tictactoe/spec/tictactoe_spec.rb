@@ -215,10 +215,28 @@ describe TicTacToe do
   end
 
   describe '#mark_space' do
-    xit 'marks an unoccupied space' do
+    context 'when an empty space is selected' do
+      it 'increases turn count' do
+        expect { tictactoe_test.mark_space(0, 0) }.to change(tictactoe_test, :turns).by(1)
+      end
+
+      it 'marks space' do
+        current_turn = :p1
+        tictactoe_test.mark_space(0, 0)
+        expect(tictactoe_test.boards[current_turn].spaces[0][0]).to be true
+      end
     end
 
-    xit "doesn't mark an occupied space" do
+    context 'when an occupied space is selected' do
+      before do
+        next_turn = :p2
+        busy_board = Array.new(3) { Array.new(3, true) }
+        tictactoe_test.boards[next_turn].spaces = busy_board
+      end
+
+      it 'returns false' do
+        expect(tictactoe_test.mark_space(0, 0)).to be false
+      end
     end
   end
 

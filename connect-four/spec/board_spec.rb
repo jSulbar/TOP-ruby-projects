@@ -10,6 +10,45 @@ describe Board do
     end
   end
 
+  describe '#check_slot' do
+    subject(:slot_board) { described_class.new }
+
+    before do
+      slot_board.slots = Array.new(6) { Array.new(7, 'P1') }
+    end
+
+    context 'with an invalid index' do
+      it 'returns nil with column index out of range' do
+        expect(slot_board.check_slot(0, 9)).to be_nil
+      end
+
+      it 'returns nil with row index out of range' do
+        expect(slot_board.check_slot(8, 0)).to be_nil
+      end
+
+      it 'returns nil when under zero' do
+        expect(slot_board.check_slot(-2, -3)).to be_nil
+      end
+    end
+
+    context 'with a valid index' do
+      it 'returns the value in position' do
+        slot_board.slots[3][4] = 'Fart'
+        expect(slot_board.check_slot(3, 4)).to eq('Fart')
+      end
+
+      it 'returns the value in edge of board' do
+        slot_board.slots[5][6] = 'Fart'
+        expect(slot_board.check_slot(5, 6)).to eq('Fart')
+      end
+
+      it 'returns the value at minimum indexes' do
+        slot_board.slots[0][0] = 'Fart'
+        expect(slot_board.check_slot(0, 0)).to eq('Fart')
+      end
+    end
+  end
+
   describe '#won?' do
     subject(:board_win) { described_class.new }
 

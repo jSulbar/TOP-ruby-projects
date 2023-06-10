@@ -52,32 +52,36 @@ describe Board do
   describe '#won?' do
     subject(:board_win) { described_class.new }
 
+    before do
+      @winner = 'P1'
+    end
+
     context 'with a connect-four present' do
       context 'with diagonal' do
         it 'returns true' do
           allow(board_win).to receive(:four_diagonal).and_return(true)
-          expect(board_win).to be_won
+          expect(board_win.won?(@winner)).to be true
         end
       end
 
       context 'with row' do
         it 'returns true' do
           allow(board_win).to receive(:four_row).and_return(true)
-          expect(board_win).to be_won
+          expect(board_win.won?(@winner)).to be true
         end
       end
 
       context 'with column' do
         it 'returns true' do
           allow(board_win).to receive(:four_column).and_return(true)
-          expect(board_win).to be_won
+          expect(board_win.won?(@winner)).to be true
         end
       end
     end
 
     context 'with no connect-four' do
       it 'returns false' do
-        expect(board_win).not_to be_won
+        expect(board_win.won?(@winner)).to be false
       end
     end
   end
@@ -91,7 +95,7 @@ describe Board do
       end
 
       it 'returns true' do
-        expect(diagonal_board.four_diagonal).to be true
+        expect(diagonal_board.four_diagonal('P1')).to be true
       end
     end
 
@@ -103,7 +107,7 @@ describe Board do
       end
 
       it 'returns true' do
-        expect(diagonal_board.four_diagonal).to be true
+        expect(diagonal_board.four_diagonal('P1')).to be true
       end
     end
   end
@@ -117,7 +121,7 @@ describe Board do
       end
 
       it 'returns true' do
-        expect(row_board.four_row).to be true
+        expect(row_board.four_row('P1')).to be true
       end
     end
   end
@@ -131,7 +135,7 @@ describe Board do
       end
 
       it 'returns true' do
-        expect(column_board.four_column).to be true
+        expect(column_board.four_column('P1')).to be true
       end
     end
   end

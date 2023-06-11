@@ -55,4 +55,13 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#advance_turn' do
+    subject(:advance_board) { described_class.new }
+
+    it "switches the players' turns" do
+      advance_board.turn_queue = %w[P1 P2]
+      expect { advance_board.advance_turn }.to change(advance_board, :turn_queue).to(%w[P2 P1])
+    end
+  end
 end

@@ -26,6 +26,16 @@ class ConnectFour
     @turn_queue.reverse!
   end
 
+  def print_gamestate
+    @board.slots.each do |row|
+      print '|'
+      row.each do |slot|
+        print slot.nil? ? '  |' : "#{slot}|"
+      end
+      puts
+    end
+  end
+
   def process_turn
     column, player = get_ply_input(
       'Type the input you want to drop your token into.',

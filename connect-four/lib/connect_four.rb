@@ -21,4 +21,8 @@ class ConnectFour
     [user_input - 1, @turn_queue.first] unless user_input > @board.slots[0].length ||
                                                user_input < 1
   end
+
+  def advance_turn
+    @turn_queue.reverse!
+  end
 end

@@ -187,6 +187,17 @@ describe Board do
   end
 
   describe '#full?' do
+    subject(:board_full) { described_class.new }
+
+    it 'returns true with a full board' do
+      board_full.slots = Array.new(6) { Array.new(7, 'P1') }
+      expect(board_full.full?).to be true
+    end
+
+    it 'returns false without a full board' do
+      board_full.slots = Array.new(6) { Array.new(7) { |i| 'P1' if i.zero? } }
+      expect(board_full.full?).to be false
+    end
   end
 
   describe '#empty?' do

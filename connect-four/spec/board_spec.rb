@@ -141,6 +141,36 @@ describe Board do
   end
 
   describe '#drop' do
+    subject(:drop_board) { described_class.new }
+
+    before do
+      @player = 'P1'
+    end
+
+    context 'with no other tokens in the column' do
+      it 'drops into the bottom slot' do
+        drop_board.drop(5, @player)
+        expect(drop_board.slots.transpose[5]).to eq([nil, nil, nil, nil, nil, @player])
+      end
+    end
+
+    context 'with other tokens in the column' do
+      context "with another player's token" do
+        it 'drops into the slot above it' do
+          drop_board.slots[-1][5] = 'P2'
+          drop_board.drop(5, @player)
+          expect(drop_board.slots.transpose[5]).to eq([nil, nil, nil, nil, @player, 'P2'])
+        end
+      end
+
+      context "with the same player's token" do
+        it 'drops into slot above it' do
+          drop_board.slots[-1][5] = @player
+          drop_board.drop(5, @player)
+          expect(drop_board.slots.transpose[5]).to eq([nil, nil, nil, nil, @player, @player])
+        end
+      end
+    end
   end
 
   describe '#full?' do

@@ -47,4 +47,8 @@ class Board
   def four_column(identifier, slots = @slots)
     four_row(identifier, slots.transpose)
   end
+
+  def drop(column, identifier)
+    @slots[@slots.transpose[column].rindex(&:nil?)][column] = identifier
+  end
 end

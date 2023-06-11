@@ -201,5 +201,15 @@ describe Board do
   end
 
   describe '#empty?' do
+    subject(:board_empty) { described_class.new }
+
+    it 'returns true with an empty board' do
+      expect(board_empty.empty?).to be true
+    end
+
+    it 'returns false with a populated board' do
+      board_empty.slots = Array.new(6) { Array.new(7) { |i| 'P1' if i.zero? } }
+      expect(board_empty.empty?).to be false
+    end
   end
 end

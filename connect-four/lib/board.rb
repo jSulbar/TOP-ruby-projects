@@ -51,4 +51,18 @@ class Board
   def drop(column, identifier)
     @slots[@slots.transpose[column].rindex(&:nil?)][column] = identifier
   end
+
+  def empty?
+    @slots.each do |row|
+      row.each { |slot| return false unless slot.nil? }
+    end
+    true
+  end
+
+  def full?
+    @slots.each do |row|
+      row.each { |slot| return false if slot.nil? }
+    end
+    true
+  end
 end

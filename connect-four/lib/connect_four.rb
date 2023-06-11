@@ -13,7 +13,7 @@ class ConnectFour
   end
 
   def game_over?
-    @board.won? || @board.full?
+    @board.won?(@turn_queue.first) || @board.full?
   end
 
   def process_input(user_input)

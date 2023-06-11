@@ -41,17 +41,17 @@ describe ConnectFour do
 
     context 'with valid input' do
       it 'returns the chosen column and current player' do
-        expect(connect_input.process_input(3, @player)).to eq([3, @player])
+        expect(connect_input.process_input('3')).to eq([2, @player])
       end
     end
 
     context 'with invalid input' do
       it 'returns nil when column out of range' do
-        expect(connect_input.process_input(9, @player)).to be_nil
+        expect(connect_input.process_input('9')).to be_nil
       end
 
       it 'returns nil when column is negative' do
-        expect(connect_input.process_input(-4, @player)).to be_nil
+        expect(connect_input.process_input('-4')).to be_nil
       end
     end
   end

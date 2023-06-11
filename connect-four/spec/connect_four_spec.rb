@@ -92,4 +92,15 @@ describe ConnectFour do
       connect_process.process_turn
     end
   end
+
+  describe '#match_winner' do
+    subject(:connect_winner) { described_class.new }
+
+    context 'when a player has won' do
+      it 'returns name of the winner' do
+        allow(connect_winner).to receive(:won?).with('P1').and_return(true)
+        expect(connect_winner.match_winner).to eq('P1')
+      end
+    end
+  end
 end

@@ -69,25 +69,15 @@ describe ConnectFour do
     subject(:connect_process) { described_class.new }
 
     context 'with invalid user input' do
-      before do
-        allow(connect_process).to receive(:get_ply_input)
-        allow(connect_process).to receive(:gets).and_return("9\n", "4\n", "3\n")
-      end
-
       it 'calls get_player_input until valid input is given' do
-        expect(connect_process).to receive(:gets).exactly(3).times
+        allow(connect_process).to receive(:get_ply_input).and_return(nil, nil, [6, 'P1'])
+        expect(connect_process).to receive(:get_ply_input).exactly(3).times
         connect_process.process_turn
       end
     end
 
-    it 'calls process_input' do
-      allow(connect_process.board).to receive(:process_input)
-      expect(connect_process.board).to receive(:process_input)
-      connect_process.process_turn
-    end
-
     it 'drops the token onto the board' do
-      allow(connect_process.board).to receive(:drop)
+      allow(connect_process).to receive(:get_ply_input).and_return([6, 'P1'])
       expect(connect_process.board).to receive(:drop)
       connect_process.process_turn
     end
@@ -98,7 +88,7 @@ describe ConnectFour do
 
     context 'when a player has won' do
       it 'returns name of the winner' do
-        allow(connect_winner).to receive(:won?).with('P1').and_return(true)
+        allow(connect_winner.board).to receive(:won?).with('P1').and_return(true)
         expect(connect_winner.match_winner).to eq('P1')
       end
     end

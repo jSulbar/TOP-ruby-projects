@@ -64,4 +64,32 @@ describe ConnectFour do
       expect { advance_board.advance_turn }.to change(advance_board, :turn_queue).to(%w[P2 P1])
     end
   end
+
+  describe '#process_turn' do
+    subject(:connect_process) { described_class.new }
+
+    context 'with invalid user input' do
+      before do
+        allow(connect_process).to receive(:get_ply_input)
+        allow(connect_process).to receive(:gets).and_return("9\n", "4\n", "3\n")
+      end
+
+      it 'calls get_player_input until valid input is given' do
+        expect(connect_process).to receive(:gets).exactly(3).times
+        connect_process.process_turn
+      end
+    end
+
+    it 'calls process_input' do
+      allow(connect_process.board).to receive(:process_input)
+      expect(connect_process.board).to receive(:process_input)
+      connect_process.process_turn
+    end
+
+    it 'drops the token onto the board' do
+      allow(connect_process.board).to receive(:drop)
+      expect(connect_process.board).to receive(:drop)
+      connect_process.process_turn
+    end
+  end
 end

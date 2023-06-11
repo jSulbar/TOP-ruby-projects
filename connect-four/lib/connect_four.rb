@@ -25,4 +25,23 @@ class ConnectFour
   def advance_turn
     @turn_queue.reverse!
   end
+
+  def process_turn
+    column, player = get_ply_input(
+      'Type the input you want to drop your token into.',
+      "#{@turn_queue.first} move: "
+    ) while column.nil?
+
+    @board.drop(column, player)
+  end
+
+  def match_winner
+    if @board.won?(@turn_queue.first)
+      @turn_queue.first
+    elsif @board.won?(@turn_queue.last)
+      @turn_queue.last
+    else
+      false
+    end
+  end
 end

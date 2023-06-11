@@ -170,6 +170,19 @@ describe Board do
           expect(drop_board.slots.transpose[5]).to eq([nil, nil, nil, nil, @player, @player])
         end
       end
+
+      context 'when column has only the top slot empty' do
+        before do
+          -5.upto(-1) do |i|
+            drop_board.slots[i][5] = 'P2'
+          end
+        end
+
+        it 'drops onto the first slot' do
+          drop_board.drop(5, @player)
+          expect(drop_board.slots.transpose[5]).to eq([@player, 'P2', 'P2', 'P2', 'P2', 'P2'])
+        end
+      end
     end
   end
 

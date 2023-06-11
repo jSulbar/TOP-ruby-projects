@@ -3,7 +3,7 @@ require_relative '../lib/connect_four'
 describe ConnectFour do
   describe '#game_over?' do
     context 'with a winning player' do
-      let(:win_board) { double(won?: true) }
+      let(:win_board) { double(won?: true, full?: false) }
       subject(:connect_end_win) { described_class.new(win_board) }
 
       it 'returns true' do
@@ -13,7 +13,7 @@ describe ConnectFour do
 
     context 'with no winning player' do
       context 'when the board is full' do
-        let(:full_board) { double(full?: true) }
+        let(:full_board) { double(full?: true, won?: false) }
         subject(:connect_end_full) { described_class.new(full_board) }
 
         it 'returns true' do
@@ -22,7 +22,8 @@ describe ConnectFour do
       end
 
       context 'when slots are still available' do
-        subject(:connect_end) { described_class.new }
+        let(:even_board) { double(full?: false, won?: false) }
+        subject(:connect_end) { described_class.new(even_board) }
 
         it 'returns false' do
           expect(connect_end).not_to be_game_over

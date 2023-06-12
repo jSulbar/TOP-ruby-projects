@@ -1,9 +1,9 @@
 # Chessboard class
 class Chessboard
-  attr_accessor :position, :board_size
+  attr_accessor :board_size, :board
 
   def initialize(board_size = 8)
-    @board = Array.new(board_size) { Array.new(board_size, false) }
+    @board = Array.new(board_size) { Array.new(board_size, nil) }
   end
 
   def tile_char(row, column, piece = ' ')
@@ -15,10 +15,10 @@ class Chessboard
   end
 
   def print_board
-    print "   #{(0..@board.length - 1).to_a.join('  ')}\n"
+    print "  #{('a'..'z').to_a[0..@board.length - 1].join(' ')}\n"
 
     @board.each_index do |row|
-      print "#{row} "
+      print "#{(row - @board.length).abs} "
       @board[row].each_index do |column|
         print tile_char(row, column)
       end

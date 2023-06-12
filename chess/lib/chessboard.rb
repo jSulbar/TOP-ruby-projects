@@ -6,15 +6,11 @@ class Chessboard
     @board = Array.new(board_size) { Array.new(board_size, false) }
   end
 
-  def tile_char(row, column)
-    if @position[0] == row && @position[1] == column
-      'KNI'
-    elsif @valid_moves.include?([row, column])
-      '-X-'
-    elsif white?(row, column)
-      '|||'
+  def tile_char(row, column, piece = ' ')
+    if white?(row, column)
+      "\u001b[47m\u001b[30m#{piece} \u001b[0m\u001b[0m"
     else
-      '   '
+      "\u001b[100m\u001b[30m#{piece} \u001b[0m\u001b[0m"
     end
   end
 

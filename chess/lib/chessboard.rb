@@ -14,16 +14,17 @@ class Chessboard
     end
   end
 
-  def print_board
-    print "  #{('a'..'z').to_a[0..@board.length - 1].join(' ')}\n"
+  def to_s
+    str = "  #{('a'..'z').to_a[0..@board.length - 1].join(' ')}\n"
 
     @board.each_index do |row|
-      print "#{(row - @board.length).abs} "
+      str += "#{(row - @board.length).abs} "
       @board[row].each_index do |column|
-        print tile_char(row, column)
+        str += tile_char(row, column)
       end
-      puts
+      str += "\n"
     end
+    str
   end
 
   def index_from_notation(position)

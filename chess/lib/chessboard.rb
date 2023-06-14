@@ -54,4 +54,12 @@ class Chessboard
   def black?(row, column)
     !white?(row, column)
   end
+
+  def [](subscript)
+    @board[subscript]
+  end
+
+  def []=(subscript, val)
+    @board[subscript] = val
+  end
 end

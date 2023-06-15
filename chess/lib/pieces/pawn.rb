@@ -8,7 +8,11 @@ class Pawn
     @char = { white: '♙', black: '♟' }
     @continuous_movement = false
     @move_list = make_movelist(
-      color == :black ? [[1, 0]] : [[-1, 0]]
+      [[front(2), 0], [front(1), 0]]
     )
+  end
+
+  def front(coord)
+    @color == :white ? coord * -1 : coord
   end
 end

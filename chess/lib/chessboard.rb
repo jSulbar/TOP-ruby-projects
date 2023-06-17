@@ -29,6 +29,14 @@ class Chessboard
     res
   end
 
+  def enemy_piece?(color, row, column)
+    !@board[row][column].nil? && @board[row][column].color != color
+  end
+
+  def ally_piece?(color, row, column)
+    !@board[row][column].nil? && @board[row][column].color == color
+  end
+
   def to_s
     str = "  #{('a'..'z').to_a[0..@board.length - 1].join(' ')}\n"
 

@@ -38,6 +38,7 @@ class Chess
   end
 
   def advance_turn
+    @turn_queue.reverse!
   end
 
   def process_turn

@@ -1,3 +1,5 @@
+require './lib/pieces/king'
+
 # Chessboard class
 class Chessboard
   attr_accessor :board_size, :board
@@ -12,6 +14,19 @@ class Chessboard
     else
       "\u001b[100m\u001b[30m#{piece} \u001b[0m\u001b[0m"
     end
+  end
+
+  def tiles_covered(color)
+    res = []
+    @board.each_index do |row|
+      @board[row].each_index do |column|
+        piece = @board[row][column]
+        next if piece.nil?
+
+        res += piece.available_tiles([row, column], self) if piece.color == color
+      end
+    end
+    res
   end
 
   def to_s

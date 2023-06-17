@@ -8,11 +8,11 @@ class Chessboard
     @board = Array.new(board_size) { Array.new(board_size, nil) }
   end
 
-  def tile_char(row, column, piece = ' ')
+  def tile_char(row, column)
     if white?(row, column)
-      "\u001b[47m\u001b[30m#{piece} \u001b[0m\u001b[0m"
+      "\u001b[47m\u001b[30m#{@board[row][column] || ' '} \u001b[0m\u001b[0m"
     else
-      "\u001b[100m\u001b[30m#{piece} \u001b[0m\u001b[0m"
+      "\u001b[100m\u001b[30m#{@board[row][column] || ' '} \u001b[0m\u001b[0m"
     end
   end
 

@@ -79,6 +79,10 @@ class Chessboard
     !white?(row, column)
   end
 
+  def empty?
+    @board.map(&:compact).flatten == []
+  end
+
   def [](subscript)
     @board[subscript]
   end

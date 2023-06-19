@@ -35,7 +35,7 @@ class Chess
     puts @chessboard
   end
 
-  def match_winner?
+  def match_winner
   end
 
   def advance_turn

@@ -56,9 +56,14 @@ class Chessboard
   end
 
   def move_data(notation)
-    [notation[0],
-     index_from_notation(notation[1..2]),
-     index_from_notation(notation[3..4])]
+    substrings = if notation.length == 4
+                   ['P', (0..1), (2..3)]
+                 else
+                   [notation[0], (1..2), (3..4)]
+                 end
+    [substrings[0],
+     index_from_notation(notation[substrings[1]]),
+     index_from_notation(notation[substrings[2]])]
   end
 
   def off_bounds?(coord)

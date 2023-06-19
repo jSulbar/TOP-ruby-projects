@@ -39,4 +39,12 @@ describe Chessboard do
       expect(index_chessboard.index_from_notation(notation)).to eq(indexes)
     end
   end
+
+  describe '#move_data' do
+    subject(:move_chessboard) { described_class.new }
+
+    it "returns the piece's notation, and the starting and end coordinates" do
+      expect(move_chessboard.move_data('Qh4d8')).to contain_exactly('Q', [4, 7], [0, 3])
+    end
+  end
 end

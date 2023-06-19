@@ -2,6 +2,8 @@ require './lib/movement_pattern'
 
 # Generic chesspiece class
 module Piece
+  attr_accessor :notation
+
   def to_s
     @char[@color]
   end
@@ -12,6 +14,7 @@ module Piece
       if @continuous_movement
         res += move.follow_until(pos) { |follow| board.tile_tuple(*follow).nil? }
       else
+        # TODO: Missing condition
         res.push(move.from_pos(pos))
       end
     end

@@ -53,10 +53,14 @@ class Chess
   end
 
   def process_turn
-    _, from, to = get_ply_input(
+    received, from, to = get_ply_input(
       'Write your move in algebraic notation. Example: Qh4d8 moves a Queen from h4 to d8.',
       "#{@turn_queue.first.capitalize} to move: "
-    ) while from.nil?
+    ) while received.nil?
+    if received == @turn_queue.first
+      @resigned = true
+      return
+    end
     piece = @chessboard[from[0]][from[1]]
 
     if piece.available_tiles(from, @chessboard).include?(to)
@@ -69,7 +73,7 @@ class Chess
   end
 
   def game_over?
-    checkmate? || draw?
+    checkmate? || draw? || @resigned
   end
 
   def checkmate?

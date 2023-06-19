@@ -55,6 +55,12 @@ class Chessboard
                ('a'..'z').to_a.index(position[0]))
   end
 
+  def move_data(notation)
+    [notation[0],
+     index_from_notation(notation[1..2]),
+     index_from_notation(notation[3..4])]
+  end
+
   def off_bounds?(coord)
     # Board will have symmetrical size so just 1 coordinate
     # needs to be tested.

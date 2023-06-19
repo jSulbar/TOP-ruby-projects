@@ -5,7 +5,7 @@ Dir['./lib/pieces/*'].each { |file| require file }
 # Chess game class. Handles user input, turns, and
 # general game status.
 class Chess
-  attr_accessor :chessboard
+  attr_accessor :chessboard, :turn_queue
 
   include Playable
 
@@ -39,6 +39,16 @@ class Chess
 
   def advance_turn
     @turn_queue.reverse!
+  end
+
+  def process_input(notation)
+    return @turn_queue.first if notation == 'RESIGN'
+
+    piece_notation, from, to = @chessboard.move_data(notation)
+    return if from.nil? || to.nil?
+    return if @chessboard[from[0]][from[1]].notation != piece_notation
+
+    [piece_notation, from, to]
   end
 
   def process_turn

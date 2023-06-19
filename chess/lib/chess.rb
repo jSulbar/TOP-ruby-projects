@@ -52,6 +52,20 @@ class Chess
   end
 
   def process_turn
+    _, from, to = get_ply_input(
+      'Write your move in algebraic notation. Example: Qh4d8 moves a Queen\
+      from h4 to d8.',
+      "#{@turn_queue.first} to move: "
+    ) while from.nil?
+    piece = @chessboard[from[0]][from[1]]
+
+    if piece.available_tiles(from, @chessboard).include?(to)
+      @chessboard[from[0]][from[1]] = nil
+      @chessboard[to[0]][to[1]] = piece
+    else
+      puts "You can't move there with that piece. Cause i said so."
+      process_turn
+    end
   end
 
   def game_over?

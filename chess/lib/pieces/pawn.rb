@@ -6,6 +6,7 @@ class Pawn
   def initialize(color)
     @color = color
     @char = { white: '♙', black: '♟' }
+    @notation = 'P'
     @continuous_movement = false
     @move_list = make_movelist(
       [[front(2), 0], [front(1), 0]]

@@ -53,9 +53,8 @@ class Chess
 
   def process_turn
     _, from, to = get_ply_input(
-      'Write your move in algebraic notation. Example: Qh4d8 moves a Queen\
-      from h4 to d8.',
-      "#{@turn_queue.first} to move: "
+      'Write your move in algebraic notation. Example: Qh4d8 moves a Queen from h4 to d8.',
+      "#{@turn_queue.first.capitalize} to move: "
     ) while from.nil?
     piece = @chessboard[from[0]][from[1]]
 

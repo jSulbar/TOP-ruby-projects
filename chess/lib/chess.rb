@@ -13,6 +13,7 @@ class Chess
     @GAME_NAME = 'Chess'
     @chessboard = board
     @turn_queue = %i[white black]
+    fill_board
   end
 
   def back_row(color)

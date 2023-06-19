@@ -47,7 +47,7 @@ class Chess
 
     piece_notation, from, to = @chessboard.move_data(notation)
     return if from.nil? || to.nil?
-    return if @chessboard[from[0]][from[1]].notation != piece_notation
+    return if @chessboard[from[0]][from[1]]&.notation != piece_notation
 
     [piece_notation, from, to]
   end

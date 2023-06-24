@@ -37,6 +37,12 @@ class Chessboard
     !@board[row][column].nil? && @board[row][column].color == color
   end
 
+  def can_move_to?(color, row, column)
+    return true unless
+      tile_tuple(row, column).nil? ||
+      ally_piece?(color, row, column)
+  end
+
   def to_s
     str = "  #{('a'..'z').to_a[0..@board.length - 1].join(' ')}\n"
 

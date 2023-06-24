@@ -29,6 +29,16 @@ class Chessboard
     res
   end
 
+  def color_pieces(color)
+    return unless block_given?
+
+    @board.each_index do |row|
+      @board.each_index do |column|
+        yield [row, column], @board[row][column] if @board[row][column]&.color == color
+      end
+    end
+  end
+
   def enemy_piece?(color, row, column)
     !@board[row][column].nil? && @board[row][column].color != color
   end

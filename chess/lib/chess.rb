@@ -1,6 +1,7 @@
 require './lib/chessboard'
 require '../lib/playable'
 Dir['./lib/pieces/*'].each { |file| require file }
+$DEBUG = true
 
 # Chess game class. Handles user input, turns, and
 # general game status.
@@ -42,14 +43,31 @@ class Chess
     @turn_queue.reverse!
   end
 
+  def legal_move?(notation, from, to)
+    return if from.nil? || to.nil?
+    return if @chessboard[from[0]][from[1]]&.color != @turn_queue.first
+    return if @chessboard[from[0]][from[1]]&.notation != notation
+
+    true
+  end
+
   def process_input(notation)
     return @turn_queue.first if notation == 'RESIGN'
 
     piece_notation, from, to = @chessboard.move_data(notation)
-    return if from.nil? || to.nil?
-    return if @chessboard[from[0]][from[1]]&.notation != piece_notation
+    return unless legal_move?(piece_notation, from, to)
 
     [piece_notation, from, to]
+  end
+
+  def move_piece(from, to)
+    piece = @chessboard[from[0]][from[1]]
+
+    return unless piece.available_tiles(from, @chessboard).include?(to)
+
+    @chessboard[from[0]][from[1]] = nil
+    @chessboard[to[0]][to[1]] = piece
+    true
   end
 
   def process_turn
@@ -57,19 +75,11 @@ class Chess
       'Write your move in algebraic notation. Example: Qh4d8 moves a Queen from h4 to d8.',
       "#{@turn_queue.first.capitalize} to move: "
     ) while received.nil?
-    if received == @turn_queue.first
-      @resigned = true
-      return
-    end
-    piece = @chessboard[from[0]][from[1]]
 
-    if piece.available_tiles(from, @chessboard).include?(to)
-      @chessboard[from[0]][from[1]] = nil
-      @chessboard[to[0]][to[1]] = piece
-    else
-      puts "You can't move there with that piece. Cause i said so."
-      process_turn
-    end
+    return if move_piece(from, to)
+
+    puts "You can't move there with that piece. Cause i said so."
+    process_turn
   end
 
   def game_over?

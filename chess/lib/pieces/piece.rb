@@ -34,6 +34,14 @@ module Piece
     res.compact
   end
 
+  def move_piece(from, to, board)
+    return unless available_tiles(from, board).include?(to)
+
+    board[from[0]][from[1]] = nil
+    board[to[0]][to[1]] = self
+    true
+  end
+
   def make_movelist(min_offsets)
     min_offsets.map do |offset|
       MovementPattern.new(offset)

@@ -29,6 +29,16 @@ class Chessboard
     res
   end
 
+  def king_of(color)
+    @board.each_index do |row|
+      @board[row].each_index do |column|
+        return [row, column] if
+          @board[row][column]&.color == color &&
+          @board[row][column].instance_of?(King)
+      end
+    end
+  end
+
   def color_pieces(color)
     return unless block_given?
 

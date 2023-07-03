@@ -75,6 +75,12 @@ class Chess
     checkmate? || draw? || @resigned
   end
 
+  def check?
+    @chessboard.tiles_covered(@turn_queue.last).include?(
+      @chessboard.king_of(@turn_queue.first)
+    )
+  end
+
   def checkmate?
   end
 

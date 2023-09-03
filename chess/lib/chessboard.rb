@@ -49,6 +49,12 @@ class Chessboard
     end
   end
 
+  def from_move(from, to)
+    res = clone
+    res.board[to[0]][to[1]] = res.board[from[0]][from[1]]
+    res
+  end
+
   def enemy_piece?(color, row, column)
     !@board[row][column].nil? && @board[row][column].color != color
   end

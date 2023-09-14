@@ -66,6 +66,7 @@ class Chess
       "#{@turn_queue.first.capitalize} to move: "
     ) while received.nil?
 
+    return @resigned = true if received == @turn_queue.first
     return if @chessboard[from[0]][from[1]].move_piece(from, to, @chessboard)
 
     puts "You can't move there with that piece. Cause i said so."

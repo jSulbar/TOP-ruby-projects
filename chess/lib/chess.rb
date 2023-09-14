@@ -36,6 +36,13 @@ class Chess
   end
 
   def match_winner
+    if @resigned
+      @turn_queue.last.to_s.capitalize
+    elsif draw?
+      nil
+    else
+      @turn_queue.first.to_s.capitalize
+    end
   end
 
   def advance_turn

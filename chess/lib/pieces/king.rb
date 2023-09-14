@@ -12,4 +12,12 @@ class King
       coord != [0, 0]
     end)
   end
+
+  def available_tiles(pos, board, tiles_covered: nil)
+    if tiles_covered
+      super(pos, board).filter { |tile| !tiles_covered.include?(tile) }
+    else
+      super(pos, board)
+    end
+  end
 end

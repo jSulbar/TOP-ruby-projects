@@ -8,11 +8,15 @@ module Piece
     @char[@color]
   end
 
-  def followup_move(pos, board, move)
+  def followup_move(pos, board, move, allow_mate: true)
     if @continuous_movement
       result = move.follow_until(pos) do |follow_up|
         !board.can_move_to?(@color, *follow_up) ||
-          board.enemy_piece?(@color, *follow_up)
+          (board.enemy_piece?(@color, *follow_up) &&
+           allow_mate) ||
+          (board.enemy_piece?(@color, *follow_up) &&
+           !allow_mate &&
+           follow_up != board.king_of(@color == :white ? :black : :white))
       end
 
       result.filter { |tile| board.can_move_to?(@color, *tile) }
@@ -22,11 +26,11 @@ module Piece
     end
   end
 
-  def available_tiles(pos, board)
+  def available_tiles(pos, board, **kwargs)
     res = []
     @move_list.each do |move|
       if @continuous_movement
-        res += followup_move(pos, board, move)
+        res += followup_move(pos, board, move, **kwargs)
       else
         res.push(followup_move(pos, board, move))
       end

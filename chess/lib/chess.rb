@@ -75,15 +75,45 @@ class Chess
     checkmate? || draw? || @resigned
   end
 
-  def check?
-    @chessboard.tiles_covered(@turn_queue.last).include?(
-      @chessboard.king_of(@turn_queue.first)
+  def check?(board = @chessboard)
+    board.tiles_covered(@turn_queue.last).include?(
+      board.king_of(@turn_queue.first)
     )
   end
 
-  def checkmate?
+  def checkmate?(board = @chessboard)
+    board.color_pieces(@turn_queue.first) do |from, piece|
+      possible_moves = if piece.instance_of?(King)
+                         piece.available_tiles(
+                           from,
+                           board,
+                           tiles_covered: board.tiles_covered(@turn_queue.last)
+                         )
+                       else
+                         piece.available_tiles(from, board, allow_mate: false)
+                       end
+
+      possible_moves.each do |to|
+        return false unless check?(board.from_move(from, to))
+      end
+    end
+    true
   end
 
-  def draw?
+  def draw?(board = @chessboard)
+    res = []
+    board.color_pieces(@turn_queue.first) do |from, piece|
+      res += if piece.instance_of?(King)
+               piece.available_tiles(
+                 from,
+                 board,
+                 tiles_covered: board.tiles_covered(@turn_queue.last)
+               )
+             else
+               piece.available_tiles(from, board)
+             end
+    end
+
+    res.empty? && !check?
   end
 end

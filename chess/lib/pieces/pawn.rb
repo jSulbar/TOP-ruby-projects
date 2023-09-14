@@ -51,6 +51,7 @@ class Pawn
     [[pos[0], pos[1] - 1],
      [pos[0], pos[1] + 1]].map do |atk|
        next unless board.enemy_piece?(@color, *atk) &&
+                   board[atk[0]][atk[1]].instance_of?(Pawn) &&
                    board[atk[0]][atk[1]]&.double_step &&
                    board[atk[0] + front(1)][atk[1]].nil?
 
@@ -58,7 +59,8 @@ class Pawn
      end.compact
   end
 
-  def available_tiles(pos, board)
-    super(pos, board).filter { |t| board[t[0]][t[1]].nil? } + diagonal_pieces(pos, board) + en_passant_tiles(pos, board)
+  def available_tiles(pos, board, **kwargs)
+    super(pos, board, **kwargs).filter { |t| board[t[0]][t[1]].nil? } +
+      diagonal_pieces(pos, board) + en_passant_tiles(pos, board)
   end
 end

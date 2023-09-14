@@ -51,6 +51,7 @@ class Chessboard
 
   def from_move(from, to)
     res = clone
+    res.board = Marshal.load(Marshal.dump(@board))
     res.board[to[0]][to[1]] = res.board[from[0]][from[1]]
     res
   end

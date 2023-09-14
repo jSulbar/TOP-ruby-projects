@@ -46,6 +46,7 @@ class Chess
     return if from.nil? || to.nil?
     return if @chessboard[from[0]][from[1]]&.color != @turn_queue.first
     return if @chessboard[from[0]][from[1]]&.notation != notation
+    return if check?(@chessboard.from_move(from, to))
 
     true
   end

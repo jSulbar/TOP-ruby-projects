@@ -1,4 +1,4 @@
-require './lib/pieces/piece'
+Dir['./lib/pieces/*'].each { |file| require file }
 
 class Pawn
   include Piece
@@ -23,9 +23,11 @@ class Pawn
       @double_step = false
       @move_list = make_movelist([[front(1), 0]])
     end
-    @moved = true
 
     super(from, to, board)
+    return promotion(to, board) if at_eighth_rank?(to)
+
+    true
   end
 
   def move_en_passant(from, to, board)
@@ -38,6 +40,24 @@ class Pawn
 
   def front(coord)
     @color == :white ? coord * -1 : coord
+  end
+
+  def promotion(pos, board)
+    puts 'Choose a piece to promote this pawn to.'
+    input = gets.chomp
+    case input
+    in 'Q' then promoted = Queen
+    in 'N' then promoted = Knight
+    in 'R' then promoted = Rook
+    in 'B' then promoted = Bishop
+    else return promotion(piece, pos)
+    end
+
+    board[pos[0]][pos[1]] = promoted.new(@color)
+  end
+
+  def at_eighth_rank?(pos)
+    @color == :white && pos[0].zero? || @color == :black && pos[0] == 7
   end
 
   def diagonal_pieces(pos, board)

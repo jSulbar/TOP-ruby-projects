@@ -2,7 +2,7 @@ require './lib/movement_pattern'
 
 # Generic chesspiece class
 module Piece
-  attr_accessor :notation, :color
+  attr_accessor :notation, :color, :moved
 
   def to_s
     @char[@color]
@@ -41,6 +41,7 @@ module Piece
   def move_piece(from, to, board)
     return unless available_tiles(from, board).include?(to)
 
+    @moved = true
     board[from[0]][from[1]] = nil
     board[to[0]][to[1]] = self
     true

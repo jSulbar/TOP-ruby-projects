@@ -61,6 +61,15 @@ class Chess
   def process_input(notation)
     return @turn_queue.first if notation == 'RESIGN'
 
+    if ['0-0', '0-0-0'].include?(notation)
+      king = @chessboard.king_of(@turn_queue.first)
+      return notation if @chessboard[king[0]][king[1]].can_castle?(
+        @chessboard,
+        queenside: notation == '0-0-0',
+        tiles_covered: @chessboard.tiles_covered(@turn_queue.last)
+      )
+    end
+
     piece_notation, from, to = @chessboard.move_data(notation)
     return unless legal_move?(piece_notation, from, to)
 
@@ -73,6 +82,10 @@ class Chess
       "#{@turn_queue.first.capitalize} to move: "
     ) while received.nil?
 
+    if ['0-0-0', '0-0'].include?(received)
+      king = @chessboard.king_of(@turn_queue.first)
+      return @chessboard[king[0]][king[1]].castle(@chessboard, received == '0-0-0')
+    end
     return @resigned = true if received == @turn_queue.first
     return if @chessboard[from[0]][from[1]].move_piece(from, to, @chessboard)
 

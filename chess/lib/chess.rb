@@ -60,6 +60,7 @@ class Chess
 
   def process_input(notation)
     return @turn_queue.first if notation == 'RESIGN'
+    return draw_agreement if notation == 'DRAW'
 
     if ['0-0', '0-0-0'].include?(notation)
       king = @chessboard.king_of(@turn_queue.first)
@@ -86,6 +87,7 @@ class Chess
       king = @chessboard.king_of(@turn_queue.first)
       return @chessboard[king[0]][king[1]].castle(@chessboard, received == '0-0-0')
     end
+    return if @draw_agreed
     return @resigned = true if received == @turn_queue.first
     return if @chessboard[from[0]][from[1]].move_piece(from, to, @chessboard)
 
@@ -122,7 +124,16 @@ class Chess
     true
   end
 
-  def draw?(board = @chessboard)
+  def draw_agreement
+    puts "#{@turn_queue.first.to_s.capitalize} offers a draw. Do you accept? Y/N "
+    @draw_agreed = true if gets.chomp == 'Y'
+  end
+
+  def draw?
+    stalemate?(@chessboard) || @draw_agreed
+  end
+
+  def stalemate?(board = @chessboard)
     res = []
     board.color_pieces(@turn_queue.first) do |from, piece|
       res += if piece.instance_of?(King)

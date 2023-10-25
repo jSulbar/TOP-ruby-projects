@@ -1,5 +1,6 @@
 require './lib/chessboard'
 require '../lib/playable'
+require 'yaml'
 Dir['./lib/pieces/*'].each { |file| require file }
 
 # Chess game class. Handles user input, turns, and
@@ -96,6 +97,24 @@ class Chess
         @chessboard.black?(*@chessboard.piece_pos(pieces[1][1]))
     else
       false
+    end
+  end
+
+  def save_game
+    values = instance_variables.map { |attr| instance_variable_get(attr) }
+    save = YAML.dump(Hash[instance_variables.zip(values)])
+    File.binwrite("#{@GAME_NAME}.sav", save)
+  end
+  
+  def load_game
+    save = YAML.safe_load_file(
+      "#{@GAME_NAME}.sav",
+      permitted_classes: [Chess, Chessboard, Piece,
+        King, Knight, Pawn, Bishop, Queen, Rook, Symbol, MovementPattern]
+    )
+
+    instance_variables.each do |attr|
+      instance_variable_set(attr, save[attr])
     end
   end
 

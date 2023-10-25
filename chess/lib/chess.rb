@@ -61,6 +61,7 @@ class Chess
   def process_input(notation)
     return @turn_queue.first if notation == 'RESIGN'
     return draw_agreement if notation == 'DRAW'
+    return save_and_exit if notation == 'EXIT'
 
     if ['0-0', '0-0-0'].include?(notation)
       king = @chessboard.king_of(@turn_queue.first)

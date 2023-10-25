@@ -16,6 +16,7 @@ class Chess
     @turn_queue = %i[white black]
     @fifty_move_rule = 0
     fill_board
+    tutorial_prompt
   end
 
   def back_row(color)
@@ -60,11 +61,27 @@ class Chess
     true
   end
 
+  def tutorial_prompt
+    puts "Show the tutorial? (Y/N)"
+    return if gets.downcase.chomp != 'y'
+    puts "Hi. I will not outline the full rules of chess here, but they're the same. "\
+      "To move your piece, use algebraic notation. You do not need (and if you try, "\
+      "it won't work anyway) to specify whether a capture or a promotion is made, or if it "\
+      "results in check, or if it is en passant. Simply notate the raw movement and "\
+      "the game will do the rest. "\
+      "To castle, do either 0-0 or 0-0-0 for queenside castling. Those are zeroes. "\
+      "You can RESIGN by typing RESIGN. SAVE will exit and SAVE the game. "\
+      "DRAW claims a draw when either a dead position is present or if the fifty-move rule "\
+      "is applicable, and DRAW? offers a draw agreement. If you wish to quit the game "\
+      "without saving, a simple CTRL+C will stop the game, as it does any other command."
+      gets
+  end
+
   def process_input(notation)
     return @turn_queue.first if notation == 'RESIGN'
     return @draw_agreed = true if notation == 'DRAW' && draw_claimable
     return draw_agreement if notation == 'DRAW?'
-    return save_and_exit if notation == 'EXIT'
+    return save_and_exit if notation == 'SAVE'
 
     if ['0-0', '0-0-0'].include?(notation)
       king = @chessboard.king_of(@turn_queue.first)

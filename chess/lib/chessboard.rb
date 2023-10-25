@@ -54,6 +54,14 @@ class Chessboard
     pieces
   end
 
+  def piece_pos(piece)
+    @board.each_index do |row|
+      @board[row].each_index do |column|
+        return [row, column] if @board[row][column].eql?(piece)
+      end
+    end
+  end
+
   def from_move(from, to)
     res = clone
     res.board = Marshal.load(Marshal.dump(@board))

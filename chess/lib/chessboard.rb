@@ -40,13 +40,18 @@ class Chessboard
   end
 
   def color_pieces(color)
-    return unless block_given?
+    pieces = [] unless block_given?
 
     @board.each_index do |row|
       @board.each_index do |column|
-        yield [row, column], @board[row][column] if @board[row][column]&.color == color
+        if block_given?
+          yield [row, column], @board[row][column] if @board[row][column]&.color == color
+        else
+          pieces << @board[row][column] if @board[row][column]&.color == color
+        end
       end
     end
+    pieces
   end
 
   def from_move(from, to)

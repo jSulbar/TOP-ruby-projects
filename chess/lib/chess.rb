@@ -78,6 +78,27 @@ class Chess
     [piece_notation, from, to]
   end
 
+  def dead_position?
+    case [@chessboard.color_pieces(@turn_queue.first),
+      @chessboard.color_pieces(@turn_queue.last)]
+    in [[King], [King]]
+      true
+    in [[King], [King, Bishop]]
+      true
+    in [[King, Bishop], [King]]
+      true
+    in [[King], [King, Knight]]
+      true
+    in [[King, Knight], [King]]
+      true
+    in [[King, Bishop], [King, Bishop]] => pieces
+      @chessboard.black?(*@chessboard.piece_pos(pieces[0][1])) ==
+        @chessboard.black?(*@chessboard.piece_pos(pieces[1][1]))
+    else
+      false
+    end
+  end
+
   def process_turn
     received, from, to = get_ply_input(
       'Write your move in algebraic notation. Example: Qh4d8 moves a Queen from h4 to d8.',

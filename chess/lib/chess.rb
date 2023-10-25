@@ -6,7 +6,7 @@ Dir['./lib/pieces/*'].each { |file| require file }
 # Chess game class. Handles user input, turns, and
 # general game status.
 class Chess
-  attr_accessor :chessboard, :turn_queue
+  attr_accessor :chessboard, :turn_queue, :fifty_move_rule
 
   include Playable
 
@@ -14,6 +14,7 @@ class Chess
     @GAME_NAME = 'Chess'
     @chessboard = board
     @turn_queue = %i[white black]
+    @fifty_move_rule = 0
     fill_board
   end
 
@@ -61,7 +62,8 @@ class Chess
 
   def process_input(notation)
     return @turn_queue.first if notation == 'RESIGN'
-    return draw_agreement if notation == 'DRAW'
+    return @draw_agreed = true if notation == 'DRAW' && draw_claimable
+    return draw_agreement if notation == 'DRAW?'
     return save_and_exit if notation == 'EXIT'
 
     if ['0-0', '0-0-0'].include?(notation)
@@ -75,6 +77,11 @@ class Chess
 
     piece_notation, from, to = @chessboard.move_data(notation)
     return unless legal_move?(piece_notation, from, to)
+    if !@chessboard[to[0]][to[1]].nil? || @chessboard[from[0]][from[1]].instance_of?(Pawn)
+      @fifty_move_rule = 0 
+    else
+      @fifty_move_rule += 1
+    end
 
     [piece_notation, from, to]
   end
@@ -172,6 +179,10 @@ class Chess
 
   def draw?
     stalemate?(@chessboard) || @draw_agreed
+  end
+
+  def draw_claimable
+    @fifty_move_rule >= 50 || dead_position?
   end
 
   def stalemate?(board = @chessboard)
